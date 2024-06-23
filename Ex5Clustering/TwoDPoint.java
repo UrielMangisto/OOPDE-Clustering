@@ -1,9 +1,13 @@
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.util.HashSet;
 import java.util.Objects;
 import java.util.Set;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 public class TwoDPoint implements Clusterable<TwoDPoint>{
 	double x;
@@ -25,15 +29,10 @@ public class TwoDPoint implements Clusterable<TwoDPoint>{
 	}
 
 	public static Set<TwoDPoint> readClusterableSet(String path) throws IOException{
-		// TODO: Transform to stream syntax
-		Set<TwoDPoint> set = new HashSet<>();
-		BufferedReader br = new BufferedReader(new FileReader(path));
-		String line = br.readLine();
-		while(line != null){
-			set.add(new TwoDPoint(line));
-			line = br.readLine();
+		try (Stream<String> lines = Files.lines(Paths.get(path))) {
+			return lines.map(TwoDPoint::new)
+					.collect(Collectors.toSet());
 		}
-		return set;
 	}
 
 	@Override
@@ -43,6 +42,8 @@ public class TwoDPoint implements Clusterable<TwoDPoint>{
 
 	@Override
 	public boolean equals(Object other) {
+		if (this == other) return true;
+		if (other == null || getClass() != other.getClass()) return false;
 		TwoDPoint otherP = (TwoDPoint) other;
 		return (otherP.x == x && otherP.y == y);
 	}
