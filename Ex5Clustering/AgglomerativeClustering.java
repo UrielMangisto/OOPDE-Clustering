@@ -40,26 +40,6 @@ public class AgglomerativeClustering <T extends Clusterable<T>> implements Clust
 		return clusters;
 	}
 
-//	public Set<Set<T>> clusterSet(Set<T> items) {
-//		Set<Set<T>> clusters = items.stream().map(item -> {
-//			Set<T> cluster = new HashSet<>();
-//			cluster.add(item); return cluster;
-//		}).collect(Collectors.toSet());
-//		while (clusters.size() > 1) {
-//			AbstractMap.SimpleEntry<Set<T>, Set<T>> closestPair = findClosestPair(clusters);
-//			if (closestPair == null || distance(closestPair.getKey(), closestPair.getValue()) > threshold) {
-//				break;
-//			}
-//			clusters.remove(closestPair.getKey());
-//			clusters.remove(closestPair.getValue());
-//			Set<T> mergedCluster = new HashSet<>();
-//			mergedCluster.addAll(closestPair.getKey());
-//			mergedCluster.addAll(closestPair.getValue());
-//			clusters.add(mergedCluster);
-//		}
-//		return clusters;
-//	}
-
 	private Optional<AbstractMap.SimpleEntry<Set<T>, Set<T>>> findClosestClusters(Set<Set<T>> clusters) {
 		return clusters.stream()
 				.flatMap(c1 -> clusters.stream()
