@@ -32,28 +32,40 @@ public class AgglomerativeClustering<T extends Clusterable<T>> implements Cluste
 	 * @return a set of clusters, each represented by a set of items
 	 */
 	public Set<Set<T>> clusterSet(Set<T> items) {
+
+		// Initialize each item as its own cluster
 		Set<Set<T>> clusters = items.stream()
 				.map(Collections::singleton)
 				.collect(Collectors.toSet());
 
+		// Continue merging clusters until only one cluster is left or no more merges are possible
 		while (clusters.size() > 1) {
+			// Find the closest pair of clusters
 			Optional<AbstractMap.SimpleEntry<Set<T>, Set<T>>> closestPair = findClosestClusters(clusters);
 			if (closestPair.isPresent()) {
 				Set<T> c1 = closestPair.get().getKey();
 				Set<T> c2 = closestPair.get().getValue();
+
+				// If the closest distance exceeds the threshold, stop merging
 				if (distance(c1, c2) > threshold) {
 					break;
 				}
+
+				// Remove the two closest clusters from the set
 				clusters.remove(c1);
 				clusters.remove(c2);
+
+				// Merge the two clusters into one
 				Set<T> union = new HashSet<>(c1);
 				union.addAll(c2);
 				clusters.add(union);
 			} else {
+				// No more pairs to merge, exit the loop
 				break;
 			}
 		}
 
+		// Return the final set of clusters
 		return clusters;
 	}
 
