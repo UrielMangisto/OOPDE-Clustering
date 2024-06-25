@@ -4,16 +4,33 @@ import java.util.Set;
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.util.stream.Collectors;
-import java.util.Set;
 import java.util.HashSet;
-import java.util.stream.Collectors;
 
 
-public class AgglomerativeClustering <T extends Clusterable<T>> implements Clustering<T>{
+/**
+ * This class implements the Agglomerative Clustering algorithm.
+ * It clusters data points by iteratively merging the closest clusters until a specified threshold is reached.
+ *
+ * @param <T> the type of elements to be clustered, must implement Clusterable interface
+ */
+public class AgglomerativeClustering<T extends Clusterable<T>> implements Clustering<T> {
 	double threshold;
+
+	/**
+	 * Constructor to initialize the threshold for merging clusters.
+	 *
+	 * @param threshold the maximum distance between clusters to merge them
+	 */
 	public AgglomerativeClustering(double threshold) {
 		this.threshold = threshold;
 	}
+
+	/**
+	 * Clusters the given set of items using the Agglomerative Clustering algorithm.
+	 *
+	 * @param items the set of items to cluster
+	 * @return a set of clusters, each represented by a set of items
+	 */
 	public Set<Set<T>> clusterSet(Set<T> items) {
 		Set<Set<T>> clusters = items.stream()
 				.map(Collections::singleton)
@@ -40,6 +57,12 @@ public class AgglomerativeClustering <T extends Clusterable<T>> implements Clust
 		return clusters;
 	}
 
+	/**
+	 * Finds the closest pair of clusters from the given set of clusters.
+	 *
+	 * @param clusters the set of clusters to search
+	 * @return an Optional containing the closest pair of clusters
+	 */
 	private Optional<AbstractMap.SimpleEntry<Set<T>, Set<T>>> findClosestClusters(Set<Set<T>> clusters) {
 		return clusters.stream()
 				.flatMap(c1 -> clusters.stream()
@@ -49,6 +72,14 @@ public class AgglomerativeClustering <T extends Clusterable<T>> implements Clust
 						distance(pair2.getKey(), pair2.getValue())));
 	}
 
+	/**
+	 * Calculates the distance between two clusters.
+	 * The distance is defined as the minimum distance between any pair of items from the two clusters.
+	 *
+	 * @param c1 the first cluster
+	 * @param c2 the second cluster
+	 * @return the minimum distance between the two clusters
+	 */
 	private double distance(Set<T> c1, Set<T> c2) {
 		return c1.stream()
 				.flatMap(item1 -> c2.stream().map(item1::distance))

@@ -4,7 +4,6 @@ import java.util.Set;
 
 // A simple validation class for agglomerative clustering. DO NOT submit this file
 public class AgglomerativeClusteringTest {
-	// TODO: change these paths to correspond to the location the files are saved in your computer
 	private static final String POINTS_PATH = "C:\\Users\\o1029\\OneDrive - g.jct.ac.il\\שנה ג\\סמסטר ב\\עיצוביות\\תר 5\\OOPD-EX5\\Datasets\\bitArraysClusters.txt";
 	private static final String BITARRAYS_PATH = "C:\\Users\\o1029\\OneDrive - g.jct.ac.il\\שנה ג\\סמסטר ב\\עיצוביות\\תר 5\\OOPD-EX5\\Datasets\\bitArrays.txt";
 
